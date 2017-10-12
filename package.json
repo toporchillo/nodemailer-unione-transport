@@ -1,0 +1,30 @@
+{
+  "name": "nodemailer-unione-transport",
+  "main": "src/unione-transport.js",
+  "description": "A transport module to use with nodemailer to leverage UniOne's REST API (http://www.unisender.com/?a=opencart)",
+  "version": "0.0.1",
+  "main": "src/unione-transport.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:toporchillo/nodemailer-unione-transport.git"
+  },
+  "keywords": [
+    "email",
+    "nodemailer",
+    "unione",
+    "unisender",
+  ]
+  ,
+  "licenses": [
+    {
+      "name": "MIT",
+      "url": "https://github.com/orliesaurus/nodemailer-mailgun-transport/blob/master/LICENSE"
+    }
+  ],
+  "homepage": "http://www.unisender.com/?a=opencart",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "author": "Alexander Toporkov <toporchillo@gmail.com>",
+}
