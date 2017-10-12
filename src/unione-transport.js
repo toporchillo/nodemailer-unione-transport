@@ -1,6 +1,7 @@
 'use strict';
 
 var packageData = require('../package.json');
+var request = require('request');
 
 // expose to the world
 module.exports = function (options) {
@@ -44,6 +45,7 @@ UnioneTransport.prototype.sendMessage = function (mail, callback) {
         /**
          * @todo Обработка статуса отправки письма от UniOne
          */
+        console.log(res);
         callback(err, res);
     }).bind(this));
 };
@@ -55,7 +57,10 @@ UnioneTransport.prototype.callUnioneAPI = function (path, mail, callback) {
         username: this.auth.username,
         message: mail
     }
-    /**
-     * @todo Отправка JSON-запроса в UniOne
-     */
+    
+	request({
+		method: 'post',
+		url: url,
+		form: json
+    }, callback);    
  }
