@@ -12,7 +12,7 @@ module.exports = function (options) {
  * @constructor
  * @param {Object} optional config auth parameter for the UniOne service
  */
-function Unione(options) {
+function UnioneTransport(options) {
     options = options || {};
 
     this.auth = options.auth;
@@ -30,23 +30,31 @@ function Unione(options) {
  * @param {Function} callback Callback function to run when the sending is completed
  */
 UnioneTransport.prototype.send = function (mail, callback) {
-    this.sendMessage(mail, callback);
+    this.sendMail(mail.data, callback);
 };
 
 /**
  * @param {Object} mail Mail object
  * @param {Function} callback Callback function to run when the sending is completed
  */
-UnioneTransport.prototype.sendMessage = function (mail, callback) {
+UnioneTransport.prototype.sendMail = function (mail, callback) {
     this.callUnioneAPI('/ru/transactional/api/v1/email/send.json', mail, (function (err, res) {
         if (err) {
             return typeof callback === 'function' && callback(err);
         }
+        try {
+            var response = JSON.parse(res.body);
+        }
+        catch(err) {
+            return typeof callback === 'function' && callback(new Error('UniOne Error: non-JSON response'));
+        }
         /**
-         * @todo Обработка статуса отправки письма от UniOne
+         * Обработка статуса отправки письма от UniOne
          */
-        console.log(res);
-        callback(err, res);
+        if (response.status == 'error') {
+            return typeof callback === 'function' && callback(new Error('UniOne Error: '+response.message));
+        }
+        return typeof callback === 'function' && callback(null, response);
     }).bind(this));
 };
 
@@ -57,10 +65,9 @@ UnioneTransport.prototype.callUnioneAPI = function (path, mail, callback) {
         username: this.auth.username,
         message: mail
     }
-    
 	request({
 		method: 'post',
 		url: url,
-		form: json
+		form: JSON.stringify(json)
     }, callback);    
  }
