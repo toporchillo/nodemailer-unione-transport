@@ -46,7 +46,7 @@ UnioneTransport.prototype.sendMail = function (mail, callback) {
             var response = JSON.parse(res.body);
         }
         catch(err) {
-            return typeof callback === 'function' && callback(new Error('UniOne Error: non-JSON response'));
+            return typeof callback === 'function' && callback(new Error('UniOne Error: non-JSON response: "'+res.body.toString()+'"'));
         }
         /**
          * Обработка статуса отправки письма от UniOne
@@ -68,6 +68,6 @@ UnioneTransport.prototype.callUnioneAPI = function (path, mail, callback) {
 	request({
 		method: 'post',
 		url: url,
-		form: JSON.stringify(json)
+		body: JSON.stringify(json)
     }, callback);    
  }
