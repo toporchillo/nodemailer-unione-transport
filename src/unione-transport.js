@@ -52,7 +52,7 @@ UnioneTransport.prototype.sendMail = function (mail, callback) {
          * Обработка статуса отправки письма от UniOne
          */
         if (response.status == 'error') {
-            return typeof callback === 'function' && callback(new Error('UniOne Error: '+response.message));
+            return typeof callback === 'function' && callback(new Error('UniOne Error: '+response.message), response);
         }
         return typeof callback === 'function' && callback(null, response);
     }).bind(this));
